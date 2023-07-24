@@ -1,15 +1,16 @@
 import Link from "next/link";
+import Note from "@/components/ui/Notes";
 
 async function getNotes() {
   const response = await fetch(
     "http://127.0.0.1:8090/api/collections/notes/records",
-    { cache: 'no-store'}  // SSR, similar to getServerSideProps()
+    { cache: "no-store" } // SSR, similar to getServerSideProps()
   );
   const data = await response.json();
   return data?.items as any[];
 }
 
-export default async function NotesPage() {
+export default async function NoteDashboard() {
   const notes = await getNotes();
 
   return (
@@ -21,19 +22,5 @@ export default async function NotesPage() {
         })}
       </div>
     </div>
-  );
-}
-
-function Note({ note }: any) {
-  const { id, title, content, created } = note || {};
-
-  return (
-    <Link href={`/notes/$id`}>
-      <div>
-        <h2>{title}</h2>
-        <h2>{content}</h2>
-        <p>{created}</p>
-      </div>
-    </Link>
   );
 }
